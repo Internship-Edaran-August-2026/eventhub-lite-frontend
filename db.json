@@ -1,0 +1,130 @@
+{
+  "events": [
+    {
+      "id": "evt_001",
+      "title": "Annual Tech Conference 2026",
+      "description": "A full-day conference covering the latest in cloud and AI engineering.",
+      "status": "published",
+      "location": "Kuala Lumpur Convention Centre",
+      "organizer_id": "usr_001",
+      "start_date": "2026-09-15T09:00:00Z",
+      "end_date": "2026-09-15T18:00:00Z",
+      "max_capacity": 500,
+      "budget_total": 45000,
+      "rsvps_count": 312,
+      "created_at": "2026-06-01T08:00:00Z",
+      "updated_at": "2026-08-01T10:30:00Z"
+    },
+    {
+      "id": "evt_002",
+      "title": "Product Launch: EventHub 2.0",
+      "description": "Internal launch event for the new EventHub platform release.",
+      "status": "draft",
+      "location": "Edaran HQ Auditorium",
+      "organizer_id": "usr_001",
+      "start_date": "2026-10-02T14:00:00Z",
+      "end_date": "2026-10-02T17:00:00Z",
+      "max_capacity": 150,
+      "budget_total": 12000,
+      "rsvps_count": 0,
+      "created_at": "2026-07-20T09:00:00Z",
+      "updated_at": "2026-07-20T09:00:00Z"
+    },
+    {
+      "id": "evt_003",
+      "title": "Customer Appreciation Night",
+      "description": "Dinner and awards night for top partner organizations.",
+      "status": "completed",
+      "location": "Sunway Resort Hotel",
+      "organizer_id": "usr_001",
+      "start_date": "2026-05-10T19:00:00Z",
+      "end_date": "2026-05-10T23:00:00Z",
+      "max_capacity": 200,
+      "budget_total": 30000,
+      "rsvps_count": 198,
+      "created_at": "2026-03-01T08:00:00Z",
+      "updated_at": "2026-05-11T09:00:00Z"
+    },
+    {
+      "id": "evt_004",
+      "title": "Internal Hackathon",
+      "description": "48-hour internal hackathon for engineering teams.",
+      "status": "ongoing",
+      "location": "Edaran Innovation Lab",
+      "organizer_id": "usr_001",
+      "start_date": "2026-08-16T09:00:00Z",
+      "end_date": "2026-08-18T18:00:00Z",
+      "max_capacity": 80,
+      "budget_total": 8000,
+      "rsvps_count": 76,
+      "created_at": "2026-06-15T08:00:00Z",
+      "updated_at": "2026-08-16T09:00:00Z"
+    },
+    {
+      "title": "Test Event",
+      "description": "test event description",
+      "location": "Kuala Lumpur",
+      "status": "published",
+      "start_date": "2026-08-18T00:35",
+      "end_date": "2026-08-18T12:35",
+      "max_capacity": 100,
+      "id": "kB6f4NZ"
+    }
+  ],
+  "participants": [
+    {
+      "id": "prt_001",
+      "event_id": "evt_001",
+      "event_title": "Annual Tech Conference 2026",
+      "name": "Nurul Aina",
+      "email": "nurul.aina@eventhubtest.com",
+      "phone": "012-3456789",
+      "status": "checked_in",
+      "type": "attendee",
+      "registered_at": "2026-06-05T10:00:00Z"
+    },
+    {
+      "id": "prt_002",
+      "event_id": "evt_001",
+      "event_title": "Annual Tech Conference 2026",
+      "name": "Marcus Lim",
+      "email": "marcus.lim@eventhubtest.com",
+      "phone": "013-2345678",
+      "status": "accepted",
+      "type": "speaker",
+      "registered_at": "2026-06-06T11:00:00Z"
+    },
+    {
+      "id": "prt_003",
+      "event_id": "evt_003",
+      "event_title": "Customer Appreciation Night",
+      "name": "Wei Jian Ong",
+      "email": "weijian.ong@eventhubtest.com",
+      "phone": "016-7788990",
+      "status": "checked_in",
+      "type": "vip",
+      "registered_at": "2026-03-10T08:00:00Z"
+    },
+    {
+      "id": "prt_004",
+      "event_id": "evt_004",
+      "event_title": "Internal Hackathon",
+      "name": "Farid Iskandar",
+      "email": "farid.iskandar@eventhubtest.com",
+      "phone": "019-1122334",
+      "status": "accepted",
+      "type": "staff",
+      "registered_at": "2026-06-20T08:00:00Z"
+    }
+  ],
+  "auth": [
+    {
+      "id": "usr_001",
+      "name": "Alex Tan",
+      "email": "intern@eventhubtest.com",
+      "password": "password",
+      "role": "Admin",
+      "token": "mock-jwt-token.eventhub-lite.demo"
+    }
+  ]
+}

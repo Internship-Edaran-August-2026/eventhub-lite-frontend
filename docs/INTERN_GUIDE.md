@@ -1,0 +1,153 @@
+# EventHub Lite — Intern Guide
+
+Welcome! This is a sanitized, simplified sandbox of the real EventHub admin app.
+It shares the exact same design system, folder conventions, and tech stack as
+production — just with the complex bits (3D lucky draw, websockets, seating
+charts, multi-step wizards) stripped out so you can focus on learning the
+patterns.
+
+## 1. How the UI/UX is structured
+
+```
+src/
+├── components/
+│   ├── ui/          shadcn/ui primitives (button, input, dialog, table...)
+│   │                 — do not hand-edit these unless you're fixing a shared
+│   │                 style bug that should apply everywhere.
+│   ├── layout/       AppLayout, Sidebar, Header, Breadcrumbs
+│   │                 — the persistent chrome around every authenticated page.
+│   └── shared/       Small reusable pieces that aren't shadcn primitives.
+├── contexts/         React Context providers (AuthContext today).
+├── routes/           Route table (routes/index.tsx) + route guards.
+├── pages/            One folder per feature area (auth, dashboard, events,
+│                     participants). Each page composes ui/ + layout/.
+├── services/         One file per resource — the ONLY place that calls
+│                     apiClient. Pages never call axios directly.
+├── api/client.ts      The shared axios instance (auth header injection,
+│                     401 redirect-to-login), pointed at VITE_API_URL.
+├── mocks/            Legacy in-memory MSW mock server (handlers/ + fixtures/).
+│                     No longer wired up by default — see "Data persistence"
+│                     below — kept for reference/rollback only.
+└── types/            Shared TypeScript interfaces. events/participants mirror
+                      the real Laravel API shapes; auth's AuthRecord mirrors
+                      db.json's json-server table instead.
+```
+
+**Design system**: `index.css` defines every color as a CSS variable
+(`--brand-blue`, `--brand-gold`, etc.) mapped into Tailwind tokens via
+`@theme inline`. Always reach for a token class (`bg-brand-blue`,
+`text-muted-foreground`) — never hardcode a hex value in a component.
+
+**Auth model**: `AuthContext` exposes `user`, `isAuthenticated`, `login()`,
+`logout()`. It's a simplified version of the real app's context — no
+permission-string checks here, just "logged in or not."
+
+## 2. Standard way to build a new page
+
+Every page in this app follows the same recipe:
+
+1. **Add the route** in `src/routes/index.tsx`, nested under the
+   `RequireAuth` + `AppLayout` route if it needs the sidebar/header chrome.
+2. **Add a service function** in `src/services/` if the page needs data —
+   never call `apiClient` or `fetch` directly from a page component.
+3. **Fetch with TanStack Query** inside the page component:
+   ```tsx
+   const { data, isLoading } = useQuery({
+     queryKey: ["events"],
+     queryFn: () => eventService.list(),
+   });
+   ```
+4. **Compose the page from `components/ui/*`** — `Card`, `Table`, `Badge`,
+   `Button`, `Skeleton` for loading states. Don't write raw `<table>` or
+   `<button>` markup; the primitives already carry the correct spacing,
+   radius, and color tokens.
+5. **Mutations** (create/update/delete) use `useMutation`, and on success call
+   `queryClient.invalidateQueries({ queryKey: [...] })` so lists refresh, plus
+   a `toast.success(...)` / `toast.error(...)` from `sonner` for feedback.
+6. **New API resource?** Add a top-level array to `db.json` (e.g. `"venues": []`)
+   — json-server automatically exposes full CRUD at `/venues` and
+   `/venues/:id`, no handler code needed. Add the matching type to
+   `src/types/` and a service file in `src/services/` the same way
+   `eventService.ts` wraps `/events`.
+
+Look at `src/pages/events/EventsListPage.tsx` and `EventDetailPage.tsx` as the
+reference implementation of this pattern end-to-end.
+
+## 3. The E2E flow you're expected to build/enhance
+
+The app implements one complete user journey:
+
+```
+/login → /dashboard → /events → /events/:id → /events/create → logout
+```
+
+- **`/login`** — `LoginPage` submits to `GET /auth?email=...` on the json-server
+  instance. `authService.login()` finds the matching record and treats it as
+  authenticated (any password is accepted — json-server has no real auth
+  logic). `AuthContext.login()` stores the fake token + user in `localStorage`.
+- **`/dashboard`** — `RequireAuth` guards this route; visiting it while logged
+  out redirects to `/login`. Stats are computed client-side in
+  `dashboardService.getStats()` from the raw `/events` and `/participants`
+  tables, since json-server has no computed-stats endpoint.
+- **`/events`** — Lists all events from `GET /events` in a `Table`, with a
+  "Create Event" button.
+- **`/events/:id`** — Shows one event's full detail (`GET /events/:id`) with a
+  delete-confirmation `Dialog` (`DELETE /events/:id`).
+- **`/events/create`** — A single-page form (`EventForm`, shared by create —
+  and easily extended to edit) built with **React Hook Form + Zod**, replacing
+  the real app's 5-step wizard. Submits to `POST /events`, which json-server
+  appends as a new object straight into `db.json`.
+- **Logout** — The user-menu item in `Header` calls `AuthContext.logout()`,
+  clears the stored token/user, and the router bounces back to `/login`.
+
+### Things to try as practice
+
+- Add an **edit** flow to `/events/:id` reusing the existing `EventForm`.
+- Add a **participants filter** (by event, by status) to `ParticipantsPage`.
+- Add **pagination controls** to the events/participants tables — the mock
+  handlers already return proper `meta.current_page` / `meta.last_page` data.
+- Add a **new mocked resource** end-to-end (type → fixture → handler →
+  service → page) to practice the full pattern above.
+
+## Running the sandbox
+
+Data is now backed by a real file — `db.json` — served through
+[json-server](https://github.com/typicode/json-server), instead of the
+in-memory MSW mocks used earlier. You need **two terminals running at the
+same time**:
+
+```bash
+# Terminal 1 — the mock database API (http://localhost:3000)
+npm run mock-api
+
+# Terminal 2 — the Vite dev server (http://localhost:3001)
+npm run dev
+```
+
+`npm run mock-api` starts json-server against `db.json` with `--watch`, so any
+edit to the file (by the app, or by hand) is picked up live. The frontend
+talks to it via `VITE_API_URL` (set in `.env.development` to
+`http://localhost:3000`), configured once in `src/api/client.ts`.
+
+### How data persistence works
+
+- Every `POST`, `PUT`, and `DELETE` your service layer makes (e.g. creating an
+  event from `/events/create`) is written **directly to `db.json` on disk** by
+  json-server — there's no in-memory reset on refresh like the old MSW setup.
+- Because `db.json` is a real file in the repo, your changes are visible in
+  `git status` just like any other file you edit.
+- **Commit `db.json` alongside your code** when you push a feature that adds
+  or changes mock data, so teammates and reviewers see the same dataset you
+  tested against:
+  ```bash
+  git add db.json src/
+  git commit -m "Add venue capacity field to event form"
+  ```
+- If your local `db.json` gets into a broken state, you can always reset it
+  from the version in `git`, or ask a teammate for a clean copy.
+
+### Rolling back to in-memory MSW mocks
+
+The original MSW handlers are still in `src/mocks/` and untouched. To switch
+back: uncomment the `enableMocking()` block in `src/main.tsx`, and you're back
+to zero-setup in-memory mocking (useful for offline work or CI).

@@ -1,0 +1,246 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+@import "@fontsource/inter/400.css";
+@import "@fontsource/inter/500.css";
+@import "@fontsource/inter/600.css";
+@import "@fontsource/inter/700.css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --font-heading: var(--font-sans);
+  --font-sans: "Inter", sans-serif;
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --color-foreground: var(--foreground);
+  --color-background: var(--background);
+  --color-brand-blue: var(--brand-blue);
+  --color-brand-gold: var(--brand-gold);
+  --color-brand-white: var(--brand-white);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
+
+  /* Brand palette: gold primary, navy secondary and white-based tertiary */
+  --color-brand-primary-50: #fffaf0;
+  --color-brand-primary-100: #fdf0d2;
+  --color-brand-primary-200: #fae2a5;
+  --color-brand-primary-300: #f7d477;
+  --color-brand-primary-400: #f4c96a;
+  --color-brand-primary-500: #f2c264;
+  --color-brand-primary-600: #dba94c;
+  --color-brand-primary-700: #b88936;
+  --color-brand-primary-800: #8d6727;
+  --color-brand-primary-900: #62461a;
+
+  --color-brand-secondary-50: #f0f5fa;
+  --color-brand-secondary-100: #d9e4ef;
+  --color-brand-secondary-200: #b3c9dd;
+  --color-brand-secondary-300: #7fa4c5;
+  --color-brand-secondary-400: #4b7da8;
+  --color-brand-secondary-600: #245985;
+  --color-brand-secondary-500: #173f66;
+  --color-brand-secondary-700: #0f3154;
+  --color-brand-secondary-800: #0a2345;
+  --color-brand-secondary-900: #06172e;
+
+  --color-brand-tertiary-50: #ffffff;
+  --color-brand-tertiary-100: #f9fbfd;
+  --color-brand-tertiary-200: #eff3f7;
+  --color-brand-tertiary-300: #dde5ed;
+  --color-brand-tertiary-400: #c1ceda;
+  --color-brand-tertiary-500: #98aabd;
+  --color-brand-tertiary-600: #70869c;
+  --color-brand-tertiary-700: #50677f;
+  --color-brand-tertiary-800: #304961;
+  --color-brand-tertiary-900: #162f4b;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-family: "Inter", sans-serif;
+  }
+}
+
+/* Light Mode Variables */
+:root {
+  /* Core palette sampled from dark_background.svg */
+  --brand-blue: #0a2345;
+  --brand-gold: #f2c264;
+  --brand-white: #ffffff;
+
+  --background: #fffaf0;
+  /* Warm cream page canvas from the gold brand palette */
+  --foreground: oklch(0.145 0 0);
+  --card: oklch(1 0 0);
+  /* Pure white for cards and sidebar */
+  --card-foreground: oklch(0.145 0 0);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.145 0 0);
+
+  /* Blue, gold and white brand palette */
+  --primary: var(--brand-blue);
+  --primary-foreground: var(--brand-white);
+
+  --secondary: oklch(0.96 0.01 290);
+  --secondary-foreground: oklch(0.2 0.05 290);
+  --muted: oklch(0.96 0.01 290);
+  --muted-foreground: oklch(0.556 0 0);
+  --accent: var(--brand-gold);
+  --accent-foreground: var(--brand-blue);
+
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: oklch(0.92 0.005 264);
+  --input: oklch(0.92 0.005 264);
+  --ring: var(--brand-gold);
+  --radius: 0.75rem;
+
+  --chart-1: oklch(0.646 0.222 41.116);
+  --chart-2: oklch(0.6 0.118 184.704);
+  --chart-3: oklch(0.398 0.07 227.392);
+  --chart-4: oklch(0.828 0.189 84.429);
+  --chart-5: oklch(0.769 0.188 70.08);
+
+  --sidebar: var(--brand-blue);
+  --sidebar-foreground: var(--brand-white);
+  --sidebar-primary: var(--brand-gold);
+  --sidebar-primary-foreground: var(--brand-blue);
+  --sidebar-accent: var(--brand-gold);
+  --sidebar-accent-foreground: var(--brand-blue);
+  --sidebar-border: color-mix(in srgb, var(--brand-white) 20%, transparent);
+  --sidebar-ring: var(--brand-gold);
+}
+
+/* Dark Mode Variables */
+.dark {
+  --brand-blue: #0a2345;
+  --brand-gold: #f2c264;
+  --brand-white: #ffffff;
+  --background: #000000;
+  --foreground: var(--brand-white);
+  --card: #00091a;
+  --card-foreground: var(--brand-white);
+  --popover: #00091a;
+  --popover-foreground: var(--brand-white);
+  --primary: var(--brand-gold);
+  --primary-foreground: var(--brand-blue);
+  --secondary: #00091a;
+  --secondary-foreground: var(--brand-white);
+  --muted: color-mix(in srgb, var(--brand-white) 12%, #000000);
+  --muted-foreground: color-mix(
+    in srgb,
+    var(--brand-white) 75%,
+    var(--brand-blue)
+  );
+  --accent: var(--brand-gold);
+  --accent-foreground: var(--brand-blue);
+  --destructive: var(--brand-gold);
+  --border: color-mix(in srgb, var(--brand-gold) 55%, var(--brand-blue));
+  --input: color-mix(in srgb, var(--brand-white) 12%, #000000);
+  --ring: var(--brand-gold);
+  --chart-1: oklch(0.488 0.243 264.376);
+  --chart-2: oklch(0.696 0.17 162.48);
+  --chart-3: oklch(0.769 0.188 70.08);
+  --chart-4: oklch(0.627 0.265 303.9);
+  --chart-5: oklch(0.645 0.246 16.439);
+  --sidebar: var(--brand-blue);
+  --sidebar-foreground: var(--brand-white);
+  --sidebar-primary: var(--brand-gold);
+  --sidebar-primary-foreground: var(--brand-blue);
+  --sidebar-accent: var(--brand-gold);
+  --sidebar-accent-foreground: var(--brand-blue);
+  --sidebar-border: color-mix(in srgb, var(--brand-white) 20%, transparent);
+  --sidebar-ring: var(--brand-gold);
+}
+
+@layer utilities {
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background: #e2e8f0;
+    border-radius: 10px;
+  }
+  .dark .custom-scrollbar::-webkit-scrollbar-thumb {
+    background: #334155;
+  }
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: #cbd5e1;
+  }
+  .dark .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: #475569;
+  }
+
+  /* Ensure the container hides the global scrollbar if needed, 
+   but shows it when we want to */
+  .itinerary-scrollbar::-webkit-scrollbar {
+    display: block !important;
+    width: 7px; /* Adjust width as needed */
+  }
+
+  .itinerary-scrollbar::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+  }
+
+  .itinerary-scrollbar::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 4px;
+  }
+
+  .itinerary-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: #a57e2d;
+  }
+  /* Hide number input spinners */
+  input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    appearance: none;
+    margin: 0;
+  }
+  input[type="number"] {
+    -moz-appearance: textfield;
+    appearance: textfield;
+  }
+}

@@ -1,6 +1,6 @@
 # EventHub Lite — Intern Guide
 
-Welcome! This is a sanitized, simplified sandbox of the real EventHub admin app.
+Welcome Interns! This is a sanitized, simplified sandbox of the real EventHub admin app.
 It shares the exact same design system, folder conventions, and tech stack as
 production — just with the complex bits (3D lucky draw, websockets, seating
 charts, multi-step wizards) stripped out so you can focus on learning the

@@ -29,6 +29,82 @@ main ──●───────────────●──────
 | `git push` | Push any subsequent local commits to the already linked remote branch. |
 | `git branch -d <branch-name>` | Delete a local feature branch after its changes have been reviewed and merged into `main`. |
 
+## Naming Conventions
+
+Consistent naming is what makes the board, the git history, and the PR list
+all readable at a glance — follow these exactly, don't improvise.
+
+### Branch names
+
+```
+<type>/sprint-<N>-<short-kebab-case-description>
+```
+
+| Type | Use for |
+|---|---|
+| `feature/` | New functionality (a new page, component, hook, endpoint) |
+| `fix/` | Bug fixes |
+| `docs/` | Documentation-only changes |
+| `chore/` | Tooling, config, dependency bumps — no app behavior change |
+| `refactor/` | Restructuring existing code with no behavior change |
+| `test/` | Adding or fixing tests only |
+
+**Examples:**
+- `feature/sprint-1-login`
+- `feature/sprint-5-events-list`
+- `fix/sprint-8-mobile-nav`
+- `docs/sprint-11-readme`
+- `chore/sprint-2-update-eslint-config`
+
+### Commit messages
+
+Follow [Conventional Commits](https://www.conventionalcommits.org/): one type
+prefix, an optional scope, then a short, imperative, lowercase summary with
+no trailing period.
+
+```
+<type>(<optional-scope>): <short imperative summary>
+```
+
+| Type | Use for |
+|---|---|
+| `feat` | A new feature or capability |
+| `fix` | A bug fix |
+| `docs` | Documentation only |
+| `style` | Formatting/whitespace — no logic change |
+| `refactor` | Code change that neither fixes a bug nor adds a feature |
+| `test` | Adding or correcting tests |
+| `chore` | Build process, tooling, or dependency changes |
+
+**Examples:**
+- `feat: add login form validation`
+- `feat(events): connect EventsListPage to GET /events`
+- `fix(dashboard): correct upcoming-events count`
+- `docs: add git workflow guide`
+- `chore: bump vite to v8.0.10`
+
+If a commit needs more explanation than one line, add a blank line and a
+short body — but the first line alone should always make sense on its own in
+`git log --oneline`.
+
+### PR titles
+
+Same `type: summary` shape as a commit message, prefixed with the sprint
+number in square brackets so it's instantly sortable/searchable against the
+project board:
+
+```
+[Sprint <N>] <type>: <short summary>
+```
+
+**Examples:**
+- `[Sprint 1] feat: add login form validation`
+- `[Sprint 5] feat: connect events list to GET /events`
+- `[Sprint 8] fix: resolve mobile nav overlap`
+
+In the PR description, always link back to the matching Sprint issue (e.g.
+`Closes #5`) so merging the PR auto-closes the board item.
+
 ## Step-by-step: starting a new sprint task
 
 1. **Start clean, from `main`:**

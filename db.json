@@ -126,5 +126,212 @@
       "role": "Admin",
       "token": "mock-jwt-token.eventhub-lite.demo"
     }
+  ],
+  "games": [
+    {
+      "id": "quiz-trivia",
+      "name": "Live Quiz & Trivia",
+      "description": "Kahoot-style live trivia with a projector host screen and mobile gamepads.",
+      "icon": "Brain",
+      "isAvailable": true
+    },
+    {
+      "id": "spin-the-wheel",
+      "name": "Spin the Wheel",
+      "description": "Spin a prize wheel live on stage to pick lucky winners.",
+      "icon": "CircleDot",
+      "isAvailable": false,
+      "comingSoon": true
+    },
+    {
+      "id": "raffle",
+      "name": "Raffle Draw",
+      "description": "Draw random winners from checked-in participants.",
+      "icon": "Ticket",
+      "isAvailable": false,
+      "comingSoon": true
+    },
+    {
+      "id": "memory-match",
+      "name": "Memory Match",
+      "description": "Head-to-head card matching mini-game for icebreakers.",
+      "icon": "LayoutGrid",
+      "isAvailable": false,
+      "comingSoon": true
+    }
+  ],
+  "quizQuestions": [
+    {
+      "id": "qst_001",
+      "eventId": "evt_001",
+      "questionText": "What does 'cloud native' primarily refer to?",
+      "options": [
+        "Running apps only on-premise",
+        "Building apps designed to run in cloud environments",
+        "A weather monitoring system",
+        "A type of database engine"
+      ],
+      "correctOptionIndex": 1,
+      "timeLimitSeconds": 20,
+      "order": 0
+    },
+    {
+      "id": "qst_002",
+      "eventId": "evt_001",
+      "questionText": "Which of these is a container orchestration platform?",
+      "options": [
+        "Kubernetes",
+        "Photoshop",
+        "Figma",
+        "Excel"
+      ],
+      "correctOptionIndex": 0,
+      "timeLimitSeconds": 15,
+      "order": 1
+    },
+    {
+      "id": "qst_003",
+      "eventId": "evt_001",
+      "questionText": "What does 'LLM' stand for in AI engineering?",
+      "options": [
+        "Local Language Machine",
+        "Large Language Model",
+        "Linked List Manager",
+        "Logical Layer Module"
+      ],
+      "correctOptionIndex": 1,
+      "timeLimitSeconds": 20,
+      "order": 2
+    },
+    {
+      "eventId": "evt_001",
+      "order": 3,
+      "questionText": "Test Question",
+      "options": [
+        "correct",
+        "wrong",
+        "wrong",
+        "wrong"
+      ],
+      "correctOptionIndex": 0,
+      "timeLimitSeconds": 20,
+      "id": "Qjx9h68"
+    }
+  ],
+  "gameSessions": [
+    {
+      "id": "sess_l6pu6aos",
+      "eventId": "evt_001",
+      "gameTypeId": "quiz-trivia",
+      "pinCode": "3544",
+      "status": "FINISHED",
+      "hostId": "usr_001",
+      "activePlayers": [
+        {
+          "id": "plr_beqql0pk",
+          "nickname": "Alex",
+          "score": 1459
+        }
+      ],
+      "questionIds": [
+        "qst_001",
+        "qst_002",
+        "qst_003"
+      ],
+      "currentQuestionIndex": 2,
+      "questionStartedAt": "2026-08-19T03:16:14.817Z",
+      "createdAt": "2026-08-19T03:13:47.016Z",
+      "updatedAt": "2026-08-19T03:17:04.275Z"
+    },
+    {
+      "id": "sess_del98vfd",
+      "eventId": "evt_001",
+      "gameTypeId": "quiz-trivia",
+      "pinCode": "6009",
+      "status": "LOBBY",
+      "hostId": "usr_001",
+      "activePlayers": [],
+      "questionIds": [
+        "qst_001",
+        "qst_002",
+        "qst_003"
+      ],
+      "currentQuestionIndex": 0,
+      "questionStartedAt": null,
+      "createdAt": "2026-08-19T03:29:25.604Z",
+      "updatedAt": "2026-08-19T03:29:25.604Z"
+    },
+    {
+      "id": "sess_5add5kvr",
+      "eventId": "evt_001",
+      "gameTypeId": "quiz-trivia",
+      "pinCode": "4839",
+      "status": "LOBBY",
+      "hostId": "usr_001",
+      "activePlayers": [],
+      "questionIds": [
+        "qst_001",
+        "qst_002",
+        "qst_003"
+      ],
+      "currentQuestionIndex": 0,
+      "questionStartedAt": null,
+      "createdAt": "2026-08-19T03:33:30.658Z",
+      "updatedAt": "2026-08-19T03:33:30.658Z"
+    },
+    {
+      "id": "sess_p1027th3",
+      "eventId": "evt_001",
+      "gameTypeId": "quiz-trivia",
+      "pinCode": "6442",
+      "status": "LOBBY",
+      "hostId": "usr_001",
+      "activePlayers": [],
+      "questionIds": [
+        "qst_001",
+        "qst_002",
+        "qst_003",
+        "Qjx9h68"
+      ],
+      "currentQuestionIndex": 0,
+      "questionStartedAt": null,
+      "createdAt": "2026-08-19T03:45:58.943Z",
+      "updatedAt": "2026-08-19T03:45:58.943Z"
+    }
+  ],
+  "quizAnswers": [
+    {
+      "id": "ans_fbvtf8uo",
+      "submittedAt": "2026-08-19T03:14:44.839Z",
+      "sessionId": "sess_l6pu6aos",
+      "questionIndex": 0,
+      "playerId": "plr_beqql0pk",
+      "selectedOptionIndex": 1,
+      "timeTakenMs": 8890,
+      "pointsAwarded": 778,
+      "isCorrect": true
+    },
+    {
+      "id": "ans_bc3hpgor",
+      "submittedAt": "2026-08-19T03:15:36.784Z",
+      "sessionId": "sess_l6pu6aos",
+      "questionIndex": 1,
+      "playerId": "plr_beqql0pk",
+      "selectedOptionIndex": 2,
+      "timeTakenMs": 11216,
+      "pointsAwarded": 0,
+      "isCorrect": false
+    },
+    {
+      "id": "ans_2a7nsqe1",
+      "submittedAt": "2026-08-19T03:16:27.586Z",
+      "sessionId": "sess_l6pu6aos",
+      "questionIndex": 2,
+      "playerId": "plr_beqql0pk",
+      "selectedOptionIndex": 1,
+      "timeTakenMs": 12769,
+      "pointsAwarded": 681,
+      "isCorrect": true
+    }
   ]
 }

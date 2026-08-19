@@ -1,5 +1,5 @@
 import { NavLink } from "react-router-dom";
-import { LayoutDashboard, CalendarDays, Users } from "lucide-react";
+import { LayoutDashboard, CalendarDays, Users, Gamepad2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface NavItem {
@@ -12,6 +12,7 @@ const navItems: NavItem[] = [
   { label: "Dashboard", to: "/dashboard", icon: LayoutDashboard },
   { label: "Events", to: "/events", icon: CalendarDays },
   { label: "Participants", to: "/participants", icon: Users },
+  { label: "Games", to: "/games", icon: Gamepad2 },
 ];
 
 export function Sidebar() {

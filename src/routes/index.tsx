@@ -7,6 +7,7 @@ import { EventsListPage } from "@/pages/events/EventsListPage";
 import { EventDetailPage } from "@/pages/events/EventDetailPage";
 import { EventCreatePage } from "@/pages/events/EventCreatePage";
 import { ParticipantsPage } from "@/pages/participants/ParticipantsPage";
+import { ParticipantCreatePage } from "@/pages/participants/ParticipantCreatePage";
 
 export function AppRoutes() {
   return (
@@ -25,6 +26,7 @@ export function AppRoutes() {
         <Route path="/events/create" element={<EventCreatePage />} />
         <Route path="/events/:id" element={<EventDetailPage />} />
         <Route path="/participants" element={<ParticipantsPage />} />
+        <Route path="/participants/create" element={<ParticipantCreatePage />} />
       </Route>
 
       <Route path="/" element={<Navigate to="/dashboard" replace />} />

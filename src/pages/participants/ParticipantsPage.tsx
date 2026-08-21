@@ -1,7 +1,14 @@
+import { Link } from "react-router-dom";
+import { Plus } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
+
 import { participantService } from "@/services/participantService";
+import { eventService } from "@/services/eventService";
+
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Button } from "@/components/ui/button";
+
 import {
   Table,
   TableBody,
@@ -11,7 +18,10 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
-const STATUS_VARIANT: Record<string, "default" | "secondary" | "destructive" | "outline"> = {
+const STATUS_VARIANT: Record<
+  string,
+  "default" | "secondary" | "destructive" | "outline"
+> = {
   checked_in: "default",
   accepted: "secondary",
   invited: "outline",
@@ -19,18 +29,42 @@ const STATUS_VARIANT: Record<string, "default" | "secondary" | "destructive" | "
 };
 
 export function ParticipantsPage() {
+  // Get participants
   const { data, isLoading } = useQuery({
     queryKey: ["participants"],
     queryFn: () => participantService.list(1, 20),
   });
 
+  // Get events
+  const { data: eventsData } = useQuery({
+    queryKey: ["events"],
+    queryFn: () => eventService.list(1, 100),
+  });
+
   return (
-    <div className="space-y-6">
-      <div>
-        <h1 className="text-2xl font-semibold">Participants</h1>
-        <p className="text-muted-foreground">All participants registered across events.</p>
+  <div className="space-y-6">
+      {/* Page Header */}
+      <div className="flex items-center justify-between">
+        <div>
+          <h1 className="text-2xl font-semibold">
+            Participants
+          </h1>
+
+          <p className="text-muted-foreground">
+            All participants registered across events.
+          </p>
+        </div>
+
+        {/* Add Participant */}
+        <Button asChild>
+          <Link to="/participants/create">
+            <Plus className="mr-2 h-4 w-4" />
+            Add Participant
+          </Link>
+        </Button>
       </div>
 
+      {/* Participants Table */}
       <div className="rounded-md border">
         <Table>
           <TableHeader>
@@ -42,7 +76,9 @@ export function ParticipantsPage() {
               <TableHead>Registered</TableHead>
             </TableRow>
           </TableHeader>
+
           <TableBody>
+            {/* Loading */}
             {isLoading &&
               Array.from({ length: 4 }).map((_, i) => (
                 <TableRow key={i}>
@@ -52,19 +88,43 @@ export function ParticipantsPage() {
                 </TableRow>
               ))}
 
+            {/* Participants */}
             {data?.data.map((participant) => (
               <TableRow key={participant.id}>
-                <TableCell className="font-medium">{participant.name}</TableCell>
-                <TableCell>{participant.email}</TableCell>
-                <TableCell>{participant.event_title}</TableCell>
+                <TableCell className="font-medium">
+                  {participant.name}
+                </TableCell>
+
                 <TableCell>
-                  <Badge variant={STATUS_VARIANT[participant.status] ?? "outline"}>
+                  {participant.email}
+                </TableCell>
+
+                <TableCell>
+                  {participant.event_title ||
+                    eventsData?.data.find(
+                      (event) =>
+                        String(event.id) ===
+                        String(participant.event_id)
+                    )?.title ||
+                    "—"}
+                </TableCell>
+
+                <TableCell>
+                  <Badge
+                    variant={
+                      STATUS_VARIANT[participant.status] ??
+                      "outline"
+                    }
+                  >
                     {participant.status.replace("_", " ")}
                   </Badge>
                 </TableCell>
+
                 <TableCell>
                   {participant.registered_at
-                    ? new Date(participant.registered_at).toLocaleDateString()
+                    ? new Date(
+                        participant.registered_at
+                      ).toLocaleDateString()
                     : "—"}
                 </TableCell>
               </TableRow>

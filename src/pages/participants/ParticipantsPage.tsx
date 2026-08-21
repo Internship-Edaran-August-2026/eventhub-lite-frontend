@@ -42,7 +42,7 @@ export function ParticipantsPage() {
   });
 
   return (
-    <>
+  <div className="space-y-6">
       {/* Page Header */}
       <div className="flex items-center justify-between">
         <div>
@@ -132,6 +132,6 @@ export function ParticipantsPage() {
           </TableBody>
         </Table>
       </div>
-    </>
+    </div>
   );
 }

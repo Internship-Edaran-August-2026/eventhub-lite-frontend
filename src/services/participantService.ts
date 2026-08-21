@@ -8,8 +8,8 @@ export type ParticipantFormValues = {
   email: string;
   phone: string;
   event_id: string;
-  type: Participant["type"];
-  status: Participant["status"];
+  type: NonNullable<Participant["type"]>;
+  status: NonNullable<Participant["status"]>;
   registered_at: string;
 };
 

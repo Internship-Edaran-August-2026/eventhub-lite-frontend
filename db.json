@@ -115,16 +115,6 @@
       "status": "accepted",
       "type": "staff",
       "registered_at": "2026-06-20T08:00:00Z"
-    },
-    {
-      "name": "Test",
-      "email": "Test@eventhubtest.com",
-      "phone": "0189099442",
-      "event_id": "kB6f4NZ",
-      "type": "attendee",
-      "status": "invited",
-      "registered_at": "2026-08-20T04:57:00.000Z",
-      "id": "hsw8lGY"
     }
   ],
   "auth": [

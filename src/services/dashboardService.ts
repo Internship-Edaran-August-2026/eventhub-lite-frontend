@@ -19,7 +19,9 @@ export const dashboardService = {
       total_participants: participants.length,
       upcoming_events: events.filter((e) => e.status === "published").length,
       checked_in_today: participants.filter(
-        (p) => p.status === "checked_in" && new Date(p.registered_at ?? "").toDateString() === today
+        (p) =>
+          p.status === "checked_in" &&
+          new Date(p.registered_at ?? "").toDateString() === today
       ).length,
       recent_events: events.slice(0, 4).map((e) => ({
         id: e.id,
@@ -28,6 +30,7 @@ export const dashboardService = {
         start_date: e.start_date,
         rsvps_count: e.rsvps_count ?? 0,
       })),
+      events,
     };
   },
 };

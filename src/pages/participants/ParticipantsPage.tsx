@@ -1,6 +1,8 @@
-import { Link } from "react-router-dom";
+import { useEffect, useRef } from "react";
+import { Link, useLocation } from "react-router-dom";
 import { Plus } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
+import { toast } from "sonner";
 
 import { participantService } from "@/services/participantService";
 import { eventService } from "@/services/eventService";
@@ -29,20 +31,39 @@ const STATUS_VARIANT: Record<
 };
 
 export function ParticipantsPage() {
-  // Get participants
+  const location = useLocation();
+  const toastShown = useRef(false);
+
+  useEffect(() => {
+    if (toastShown.current) {
+      return;
+    }
+
+    const successMessage = location.state?.successMessage;
+
+    if (!successMessage) {
+      return;
+    }
+
+    toastShown.current = true;
+
+    toast.success(successMessage, {
+      duration: 5000,
+    });
+  }, [location.state]);
+
   const { data, isLoading } = useQuery({
     queryKey: ["participants"],
     queryFn: () => participantService.list(1, 20),
   });
 
-  // Get events
   const { data: eventsData } = useQuery({
     queryKey: ["events"],
     queryFn: () => eventService.list(1, 100),
   });
 
   return (
-  <div className="space-y-6">
+    <div className="w-full space-y-6">
       {/* Page Header */}
       <div className="flex items-center justify-between">
         <div>
@@ -55,7 +76,6 @@ export function ParticipantsPage() {
           </p>
         </div>
 
-        {/* Add Participant */}
         <Button asChild>
           <Link to="/participants/create">
             <Plus className="mr-2 h-4 w-4" />
@@ -65,7 +85,7 @@ export function ParticipantsPage() {
       </div>
 
       {/* Participants Table */}
-      <div className="rounded-md border">
+      <div className="w-full overflow-hidden rounded-md border">
         <Table>
           <TableHeader>
             <TableRow>
@@ -78,17 +98,15 @@ export function ParticipantsPage() {
           </TableHeader>
 
           <TableBody>
-            {/* Loading */}
             {isLoading &&
-              Array.from({ length: 4 }).map((_, i) => (
-                <TableRow key={i}>
+              Array.from({ length: 4 }).map((_, index) => (
+                <TableRow key={index}>
                   <TableCell colSpan={5}>
                     <Skeleton className="h-6 w-full" />
                   </TableCell>
                 </TableRow>
               ))}
 
-            {/* Participants */}
             {data?.data.map((participant) => (
               <TableRow key={participant.id}>
                 <TableCell className="font-medium">
@@ -129,6 +147,18 @@ export function ParticipantsPage() {
                 </TableCell>
               </TableRow>
             ))}
+
+            {!isLoading &&
+              data?.data.length === 0 && (
+                <TableRow>
+                  <TableCell
+                    colSpan={5}
+                    className="py-12 text-center text-muted-foreground"
+                  >
+                    No participants found.
+                  </TableCell>
+                </TableRow>
+              )}
           </TableBody>
         </Table>
       </div>

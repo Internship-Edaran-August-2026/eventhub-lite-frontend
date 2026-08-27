@@ -1,11 +1,24 @@
-import { Toaster as Sonner, type ToasterProps } from "sonner"
-import { CircleCheckIcon, InfoIcon, TriangleAlertIcon, OctagonXIcon, Loader2Icon } from "lucide-react"
+import {
+  Toaster as Sonner,
+  type ToasterProps,
+} from "sonner";
 
-const Toaster = ({ ...props }: ToasterProps) => {
+import {
+  CircleCheckIcon,
+  InfoIcon,
+  TriangleAlertIcon,
+  OctagonXIcon,
+  Loader2Icon,
+} from "lucide-react";
+
+const Toaster = ({
+  ...props
+}: ToasterProps) => {
   return (
     <Sonner
       theme="system"
       className="toaster group"
+      duration={5000}
       icons={{
         success: (
           <CircleCheckIcon className="size-4" />
@@ -26,19 +39,21 @@ const Toaster = ({ ...props }: ToasterProps) => {
       style={
         {
           "--normal-bg": "var(--popover)",
-          "--normal-text": "var(--popover-foreground)",
+          "--normal-text":
+            "var(--popover-foreground)",
           "--normal-border": "var(--border)",
           "--border-radius": "var(--radius)",
         } as React.CSSProperties
       }
       toastOptions={{
+        duration: 5000,
         classNames: {
           toast: "cn-toast",
         },
       }}
       {...props}
     />
-  )
-}
+  );
+};
 
-export { Toaster }
+export { Toaster };

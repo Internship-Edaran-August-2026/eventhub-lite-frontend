@@ -27,23 +27,27 @@ export function ParticipantCreatePage() {
     mutationFn: (values: ParticipantFormValues) =>
       participantService.create(values),
 
-    onSuccess: () => {
-      queryClient.invalidateQueries({
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({
         queryKey: ["participants"],
       });
 
-      toast.success("Participant added successfully.");
-
-      navigate("/participants");
+      navigate("/participants", {
+        state: {
+          successMessage: "Participant added successfully.",
+        },
+      });
     },
 
     onError: () => {
-      toast.error("Failed to add participant.");
+      toast.error("Failed to add participant.", {
+        duration: 5000,
+      });
     },
   });
 
   return (
-    <div className="max-w-2xl space-y-6">
+    <div className="w-full max-w-2xl space-y-6">
       <div>
         <h1 className="text-2xl font-semibold">
           Add Participant
@@ -62,7 +66,7 @@ export function ParticipantCreatePage() {
         <CardContent>
           <ParticipantForm
             submitLabel="Add Participant"
-            onSubmit={(values) => mutateAsync(values)}
+            onSubmit={mutateAsync}
           />
         </CardContent>
       </Card>

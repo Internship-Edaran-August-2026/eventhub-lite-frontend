@@ -1,3 +1,5 @@
+import type { EventItem } from "@/types/event";
+
 export interface DashboardStats {
   total_events: number;
   total_participants: number;
@@ -10,4 +12,5 @@ export interface DashboardStats {
     start_date: string;
     rsvps_count: number;
   }>;
+  events: EventItem[];
 }

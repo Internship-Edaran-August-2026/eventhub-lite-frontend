@@ -52,7 +52,12 @@ export function ParticipantsPage() {
     });
   }, [location.state]);
 
-  const { data, isLoading } = useQuery({
+  const {
+    data,
+    isLoading,
+    isError,
+    error,
+  } = useQuery({
     queryKey: ["participants"],
     queryFn: () => participantService.list(1, 20),
   });
@@ -61,6 +66,46 @@ export function ParticipantsPage() {
     queryKey: ["events"],
     queryFn: () => eventService.list(1, 100),
   });
+
+  if (isError) {
+    return (
+      <div className="w-full space-y-6">
+        {/* Page Header */}
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-2xl font-semibold">
+              Participants
+            </h1>
+
+            <p className="text-muted-foreground">
+              All participants registered across events.
+            </p>
+          </div>
+
+          <Button asChild>
+            <Link to="/participants/create">
+              <Plus className="mr-2 h-4 w-4" />
+              Add Participant
+            </Link>
+          </Button>
+        </div>
+
+        {/* Error State */}
+        <div className="rounded-md border">
+          <div className="py-12 text-center">
+            <p className="text-sm font-medium text-destructive">
+              Failed to load participants.
+            </p>
+
+            <p className="mt-1 text-sm text-muted-foreground">
+              {error?.message ??
+                "Something went wrong while loading participants."}
+            </p>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="w-full space-y-6">

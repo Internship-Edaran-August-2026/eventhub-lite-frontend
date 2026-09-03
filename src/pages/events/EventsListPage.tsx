@@ -50,12 +50,48 @@ function EventDayButton(
   );
 }
 
+function CalendarSkeleton() {
+  return (
+    <div className="w-[280px] space-y-4 rounded-md border p-4">
+      {/* Calendar header */}
+      <div className="flex items-center justify-between">
+        <Skeleton className="h-8 w-8 rounded-md" />
+        <Skeleton className="h-5 w-28" />
+        <Skeleton className="h-8 w-8 rounded-md" />
+      </div>
+
+      {/* Day names */}
+      <div className="grid grid-cols-7 gap-2">
+        {Array.from({ length: 7 }).map((_, i) => (
+          <Skeleton key={i} className="mx-auto h-4 w-6" />
+        ))}
+      </div>
+
+      {/* Calendar days */}
+      <div className="grid grid-cols-7 gap-2">
+        {Array.from({ length: 35 }).map((_, i) => (
+          <Skeleton
+            key={i}
+            className="mx-auto h-8 w-8 rounded-full"
+          />
+        ))}
+      </div>
+    </div>
+  );
+}
+
 export function EventsListPage() {
+
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(
     new Date()
   );
 
-  const { data, isLoading } = useQuery({
+  const {
+    data,
+    isLoading,
+    isError,
+    error,
+  } = useQuery({
     queryKey: ["events"],
     queryFn: () => eventService.list(1, 100),
   });
@@ -88,6 +124,33 @@ export function EventsListPage() {
       })
     : [];
 
+  if (isError) {
+    return (
+      <div className="space-y-6">
+        <div>
+          <h1 className="text-2xl font-semibold">Events</h1>
+          <p className="text-sm text-muted-foreground">
+            Manage and view all events.
+          </p>
+        </div>
+
+        <Card>
+          <CardContent className="py-12 text-center">
+            <p className="text-sm font-medium text-destructive">
+              Failed to load events.
+            </p>
+
+            <p className="mt-1 text-sm text-muted-foreground">
+              {error instanceof Error
+                ? error.message
+                : "Something went wrong while loading events."}
+            </p>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
+
   return (
     <div className="space-y-6">
       {/* Page Header */}
@@ -115,21 +178,25 @@ export function EventsListPage() {
           </CardHeader>
 
           <CardContent className="flex justify-center">
-            <Calendar
-              mode="single"
-              selected={selectedDate}
-              onSelect={setSelectedDate}
-              modifiers={{
-                event: eventDates,
-              }}
-              modifiersClassNames={{
-                event: "font-semibold text-primary",
-              }}
-              components={{
-                DayButton: EventDayButton,
-              }}
-              className="rounded-md border"
-            />
+            {isLoading ? (
+              <CalendarSkeleton />
+            ) : (
+              <Calendar
+                mode="single"
+                selected={selectedDate}
+                onSelect={setSelectedDate}
+                modifiers={{
+                  event: eventDates,
+                }}
+                modifiersClassNames={{
+                  event: "font-semibold text-primary",
+                }}
+                components={{
+                  DayButton: EventDayButton,
+                }}
+                className="rounded-md border"
+              />
+            )}
           </CardContent>
         </Card>
 

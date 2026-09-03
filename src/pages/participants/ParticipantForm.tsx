@@ -62,6 +62,8 @@ export function ParticipantForm({
   const {
     data: eventsData,
     isLoading: isEventsLoading,
+    isError: isEventsError,
+    error: eventsError,
   } = useQuery({
     queryKey: ["events"],
     queryFn: () => eventService.list(1, 100),
@@ -143,14 +145,16 @@ export function ParticipantForm({
         <Select
           value={eventId}
           onValueChange={(value) => setValue("event_id", value)}
-          disabled={isEventsLoading}
+          disabled={isEventsLoading || isEventsError}
         >
           <SelectTrigger>
             <SelectValue
               placeholder={
                 isEventsLoading
                   ? "Loading events..."
-                  : "Select an event"
+                  : isEventsError
+                    ? "Failed to load events"
+                    : "Select an event"
               }
             />
           </SelectTrigger>
@@ -166,6 +170,13 @@ export function ParticipantForm({
             ))}
           </SelectContent>
         </Select>
+
+        {isEventsError && (
+          <p className="text-sm text-destructive">
+            {eventsError?.message ??
+              "Something went wrong while loading events."}
+          </p>
+        )}
 
         {errors.event_id && (
           <p className="text-sm text-destructive">

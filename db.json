@@ -115,6 +115,16 @@
       "status": "accepted",
       "type": "staff",
       "registered_at": "2026-06-20T08:00:00Z"
+    },
+    {
+      "name": "Test",
+      "email": "Test@eventhubtest.com",
+      "phone": "0123456789",
+      "event_id": "kB6f4NZ",
+      "type": "staff",
+      "status": "accepted",
+      "registered_at": "2026-08-26T07:54:00.000Z",
+      "id": "HcyZH5N"
     }
   ],
   "auth": [
